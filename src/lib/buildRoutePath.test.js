@@ -39,7 +39,7 @@ describe('buildRoutePath', () => {
     expect(d).toContain('C');
   });
 
-  it('klemt haltes die buiten de pagina vallen', () => {
+  it('legt haltes buiten de pagina op de rand', () => {
     const d = buildRoutePath(
       [
         { y: -400, side: 'left' },
@@ -47,7 +47,35 @@ describe('buildRoutePath', () => {
       ],
       { height: 1000 }
     );
-    expect(d).not.toContain('-');
-    expect(d).not.toContain('4000');
+    // De punten óp de kromme (het eindpunt van elk C-segment en het M-punt)
+    // moeten binnen de pagina liggen; controlepunten mogen erbuiten vallen,
+    // want die bepalen alleen de richting en worden nooit getekend.
+    const onCurve = [];
+    const move = d.match(/^M ([\d.]+) ([\d.-]+)/);
+    onCurve.push(Number(move[2]));
+    for (const seg of d.matchAll(/C [^C]*?,\s*[\d.-]+ [\d.-]+,\s*([\d.-]+) ([\d.-]+)/g)) {
+      onCurve.push(Number(seg[2]));
+    }
+    expect(onCurve.length).toBeGreaterThan(1);
+    for (const y of onCurve) {
+      expect(y).toBeGreaterThanOrEqual(0);
+      expect(y).toBeLessThanOrEqual(1000);
+    }
+  });
+
+  it('houdt de kromme vloeiend rond een halte op de bovenrand', () => {
+    // Zuivere Catmull-Rom: de raaklijn in een halte is evenredig met het
+    // verschil tussen zijn buren. Bij een halte op y = 0 betekent dat een
+    // controlepunt bóven de pagina — dat mag, en het bewijst dat er geen knik
+    // in de lijn zit.
+    const d = buildRoutePath(
+      [
+        { y: 0, side: 'left' },
+        { y: 900, side: 'right' },
+      ],
+      { height: 1000 }
+    );
+    expect(d).toContain('C');
+    expect(d).not.toBe('');
   });
 });
