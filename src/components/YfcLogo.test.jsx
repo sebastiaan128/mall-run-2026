@@ -22,4 +22,12 @@ describe('YfcLogo', () => {
     const { container } = render(<YfcLogo />);
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
   });
+
+  it('houdt de verborgen taalvarianten verborgen in de volledige lockup', () => {
+    // Het bronbestand bevat vier groepen met alternatieve versies van de tekst
+    // "Veenendaal", die met display="none" verborgen staan. Gaan die wrappers
+    // verloren, dan renderen ze alle vier over elkaar heen.
+    const { container } = render(<YfcLogo variant="full" />);
+    expect(container.querySelectorAll('g[display="none"]')).toHaveLength(4);
+  });
 });
