@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import RouteLine from '../components/route/RouteLine.jsx';
 import Header from '../components/Header.jsx';
 import Hero from '../components/Hero.jsx';
 import Section from '../components/Section.jsx';
@@ -16,9 +17,11 @@ import { useCampaignSettings } from '../hooks/useCampaignSettings.js';
 export default function Home() {
   const { settings } = useCampaignSettings();
   const [distance, setDistance] = useState('7 km');
+  const pageRef = useRef(null);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div ref={pageRef} className="relative flex min-h-screen flex-col">
+      <RouteLine containerRef={pageRef} />
       <Header />
       <Hero />
 
