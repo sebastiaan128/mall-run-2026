@@ -3,38 +3,21 @@
 @tailwind utilities;
 
 body {
-  @apply bg-surface text-body font-serif antialiased;
+  @apply bg-base text-body font-sans antialiased;
 }
 
 h1, h2, h3, h4 {
-  @apply font-display text-ink;
+  @apply text-ink;
 }
 
-/* Archivo is een variabel font met een breedte-as. Koppen staan op de breedste
-   stand (startlint-look), UI-tekst net iets smaller. */
-.wide {
-  font-variation-settings: 'wdth' 125;
+/* Bricolage Grotesque is variabel op breedte en optische grootte. Koppen staan
+   breed, labels smal; dat is wat hiërarchie geeft nu de kaders weg zijn. */
+.u-wide {
+  font-variation-settings: 'wdth' 100, 'opsz' 96;
 }
 
-.semiwide {
-  font-variation-settings: 'wdth' 112;
-}
-
-/* Meetlat: een liniaal-streepje elke 24px onder een doorlopende lijn. Wordt als
-   scheiding gebruikt in plaats van een kale hairline. */
-.tick-rule {
-  height: 11px;
-  border-top: 1px solid #000;
-  background-image: repeating-linear-gradient(to right, #000 0 1px, transparent 1px 24px);
-}
-
-.tick-rule-light {
-  border-top-color: rgba(255, 255, 255, 0.5);
-  background-image: repeating-linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.5) 0 1px,
-    transparent 1px 24px
-  );
+.u-narrow {
+  font-variation-settings: 'wdth' 85, 'opsz' 14;
 }
 
 /* Verborgen radio bij de afstandskeuze; het label ernaast is de knop. */
@@ -46,8 +29,8 @@ h1, h2, h3, h4 {
 }
 
 :focus-visible {
-  outline: 2px solid #000000;
-  outline-offset: 2px;
+  outline: 2px solid #17181A;
+  outline-offset: 3px;
 }
 
 .on-dark :focus-visible {
