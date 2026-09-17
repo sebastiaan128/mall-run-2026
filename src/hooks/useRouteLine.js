@@ -40,6 +40,12 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
     }
 
     function paint() {
+      // Zonder haltes is er geen pad: `d` is leeg, `getTotalLength()` is 0 en
+      // `getPointAtLength` gooit dan een InvalidStateError. Die fout haalt de
+      // hele React-boom neer (useEffect-fouten worden niet opgevangen), dus
+      // sla het schilderen dan gewoon over.
+      if (!cache.length) return;
+
       const fraction = drawnFraction(window.scrollY, window.innerHeight, cache.height);
       path.style.strokeDashoffset = String(cache.length * (1 - fraction));
 
@@ -56,6 +62,8 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
 
     function paintStatic() {
       path.style.strokeDashoffset = '0';
+      // Zonder pad heeft de stip geen geldig punt om naartoe te gaan: gewoon
+      // verbergen, niet aan getPointAtLength komen.
       if (dot) dot.style.display = 'none';
       for (const stop of cache.stops) {
         stop.element.dataset.routeReached = 'true';
@@ -103,11 +111,29 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
       if (motion.matches) paintStatic();
     });
     observer.observe(container);
+
+    // De deelnemerslijst komt live uit Firestore binnen: secties kunnen ná de
+    // eerste meting verschijnen of verdwijnen. Verandert daarbij de hoogte van
+    // de container niet merkbaar, dan meldt de ResizeObserver niets en blijft
+    // `cache.stops` verwijzen naar oude of losgekoppelde elementen — de lijn
+    // loopt dan stil verkeerd. Daarom ook op boomwijzigingen letten, niet
+    // alleen op de hoogte.
+    const mutations = new MutationObserver(() => {
+      dirty = true;
+      measure();
+      if (motion.matches) paintStatic();
+    });
+    // attributes: false is geen detail maar de kern: measure() schrijft zelf
+    // attributen (d, viewBox, strokeDasharray, data-route-reached). Zou de
+    // observer ook op attributen letten, dan roept hij zichzelf eindeloos aan.
+    mutations.observe(container, { childList: true, subtree: true, attributes: false });
+
     motion.addEventListener('change', restart);
 
     return () => {
       stop();
       observer.disconnect();
+      mutations.disconnect();
       motion.removeEventListener('change', restart);
     };
   }, [pathRef, dotRef, containerRef]);
