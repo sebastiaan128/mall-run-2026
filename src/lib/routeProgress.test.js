@@ -20,8 +20,11 @@ describe('drawnFraction', () => {
     expect(drawnFraction(0, 1000, 600)).toBe(1);
   });
 
-  it('is 1 bij een documenthoogte van nul', () => {
-    expect(drawnFraction(0, 1000, 0)).toBe(1);
+  it('is 1 als zowel de pagina als het scherm nul hoog zijn', () => {
+    // Dit is het geval waarvoor de guard bestaat: zonder hem wordt 0 / 0 hier
+    // NaN, en NaN overleeft clamp01. Een scherm van nul hoogte komt voor in een
+    // verborgen iframe of vlak voor de eerste meting.
+    expect(drawnFraction(0, 0, 0)).toBe(1);
   });
 });
 
@@ -30,8 +33,14 @@ describe('isStopReached', () => {
     expect(isStopReached(500, 0, 1000)).toBe(true);
   });
 
-  it('is precies op de grens bereikt', () => {
-    expect(isStopReached(1000 * ARRIVAL_RATIO, 0, 1000)).toBe(true);
+  it('is precies op de aankomstlijn bereikt', () => {
+    // Letterlijke getallen, geen ARRIVAL_RATIO: anders toetst de test zichzelf.
+    // Bij een scherm van 1000px ligt de aankomstlijn op 600px.
+    expect(isStopReached(600, 0, 1000)).toBe(true);
+  });
+
+  it('is één pixel onder de aankomstlijn nog niet bereikt', () => {
+    expect(isStopReached(601, 0, 1000)).toBe(false);
   });
 
   it('is nog niet bereikt als de halte eronder staat', () => {
