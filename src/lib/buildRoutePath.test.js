@@ -63,11 +63,11 @@ describe('buildRoutePath', () => {
     }
   });
 
-  it('houdt de kromme vloeiend rond een halte op de bovenrand', () => {
-    // Zuivere Catmull-Rom: de raaklijn in een halte is evenredig met het
-    // verschil tussen zijn buren. Bij een halte op y = 0 betekent dat een
-    // controlepunt bóven de pagina — dat mag, en het bewijst dat er geen knik
-    // in de lijn zit.
+  it('laat het controlepunt buiten de pagina uitsteken bij een halte op de bovenrand', () => {
+    // Zuivere Catmull-Rom richt de raaklijn in een halte naar het verschil tussen
+    // zijn buren. Ligt een halte op y = 0, dan wijst dat controlepunt omhoog, de
+    // pagina uit. Dat is precies wat we willen: het controlepunt wordt nooit
+    // getekend, maar houdt de kromme knikvrij.
     const d = buildRoutePath(
       [
         { y: 0, side: 'left' },
@@ -75,7 +75,40 @@ describe('buildRoutePath', () => {
       ],
       { height: 1000 }
     );
-    expect(d).toContain('C');
-    expect(d).not.toBe('');
+    const controlY = [...d.matchAll(/C ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+),/g)].flatMap(
+      (m) => [Number(m[2]), Number(m[4])]
+    );
+    expect(controlY.length).toBeGreaterThan(0);
+    expect(Math.min(...controlY)).toBeLessThan(0);
+  });
+
+  it('houdt de raaklijnen aan weerszijden van elke halte gelijk (geen knik)', () => {
+    // C1-continuïteit: bij Catmull-Rom is de uitgaande raaklijn van een halte
+    // gelijk aan de inkomende. Klemmen van controlepunten breekt dat — deze test
+    // faalt dus op de oude implementatie.
+    const d = buildRoutePath(
+      [
+        { y: 0, side: 'left' },
+        { y: 500, side: 'right' },
+        { y: 1000, side: 'left' },
+      ],
+      { height: 1000 }
+    );
+    const segments = [...d.matchAll(/C ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+)/g)]
+      .map((m) => ({
+        c2: { x: Number(m[3]), y: Number(m[4]) },
+        end: { x: Number(m[5]), y: Number(m[6]) },
+        c1: { x: Number(m[1]), y: Number(m[2]) },
+      }));
+    expect(segments.length).toBeGreaterThanOrEqual(2);
+
+    for (let i = 0; i < segments.length - 1; i += 1) {
+      const anchor = segments[i].end;
+      const incoming = { x: anchor.x - segments[i].c2.x, y: anchor.y - segments[i].c2.y };
+      const outgoing = { x: segments[i + 1].c1.x - anchor.x, y: segments[i + 1].c1.y - anchor.y };
+      // Afrondingsmarge: de padbouwer rondt op twee decimalen af.
+      expect(Math.abs(incoming.x - outgoing.x)).toBeLessThan(0.05);
+      expect(Math.abs(incoming.y - outgoing.y)).toBeLessThan(0.05);
+    }
   });
 });
