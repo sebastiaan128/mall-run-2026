@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-surface text-body font-serif antialiased;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display text-ink;
+}
+
+/* Archivo is een variabel font met een breedte-as. Koppen staan op de breedste
+   stand (startlint-look), UI-tekst net iets smaller. */
+.wide {
+  font-variation-settings: 'wdth' 125;
+}
+
+.semiwide {
+  font-variation-settings: 'wdth' 112;
+}
+
+/* Meetlat: een liniaal-streepje elke 24px onder een doorlopende lijn. Wordt als
+   scheiding gebruikt in plaats van een kale hairline. */
+.tick-rule {
+  height: 11px;
+  border-top: 1px solid #000;
+  background-image: repeating-linear-gradient(to right, #000 0 1px, transparent 1px 24px);
+}
+
+.tick-rule-light {
+  border-top-color: rgba(255, 255, 255, 0.5);
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.5) 0 1px,
+    transparent 1px 24px
+  );
+}
+
+/* Verborgen radio bij de afstandskeuze; het label ernaast is de knop. */
+.pill-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+
+.on-dark :focus-visible {
+  outline-color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
