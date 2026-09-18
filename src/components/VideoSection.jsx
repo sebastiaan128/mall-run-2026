@@ -11,7 +11,14 @@ export default function VideoSection() {
       </p>
       <div className="mt-8 flex aspect-video items-center justify-center rounded-[28px] bg-panel">
         <div className="flex items-center gap-3">
-          <svg width="15" height="17" viewBox="0 0 24 24" fill="#E85812" aria-hidden="true">
+          <svg
+            width="15"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="text-brand"
+            aria-hidden="true"
+          >
             <path d="M6 4v16l14-8z" />
           </svg>
           <span className="u-narrow text-[14px] font-semibold text-muted">Filmpje volgt</span>
