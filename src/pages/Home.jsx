@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import RouteLine from '../components/route/RouteLine.jsx';
+import RouteScale from '../components/route/RouteScale.jsx';
 import Header from '../components/Header.jsx';
 import Hero from '../components/Hero.jsx';
 import RouteSectionShell from '../components/route/RouteSectionShell.jsx';
@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div ref={pageRef} className="relative flex min-h-screen flex-col">
-      <RouteLine containerRef={pageRef} />
+      <RouteScale containerRef={pageRef} />
       <Header />
       <Hero />
 

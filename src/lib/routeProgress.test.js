@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ARRIVAL_RATIO, drawnFraction, isStopReached } from './routeProgress.js';
+import { ARRIVAL_RATIO, drawnFraction, isStopReached, stopKilometres } from './routeProgress.js';
 
 describe('drawnFraction', () => {
   it('is bovenaan de pagina al een stukje getekend', () => {
@@ -45,5 +45,19 @@ describe('isStopReached', () => {
 
   it('is nog niet bereikt als de halte eronder staat', () => {
     expect(isStopReached(900, 0, 1000)).toBe(false);
+  });
+});
+
+describe('stopKilometres', () => {
+  it('verdeelt acht haltes precies van 0 tot en met 7 in stappen van 1', () => {
+    expect(stopKilometres(8)).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+  });
+
+  it('geeft [0] bij één halte', () => {
+    expect(stopKilometres(1)).toEqual([0]);
+  });
+
+  it('geeft een lege lijst bij nul haltes', () => {
+    expect(stopKilometres(0)).toEqual([]);
   });
 });

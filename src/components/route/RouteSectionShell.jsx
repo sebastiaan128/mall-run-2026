@@ -1,6 +1,6 @@
 // Elke sectie is een halte aan de route. Geen kaders en geen raster meer: de
 // sectie kiest een kant en krijgt daar zijn label, de rest is witruimte.
-// `data-route-reached` wordt door useRouteLine gezet zodra de lijn hier is.
+// `data-route-reached` wordt door useRouteScale gezet zodra de markering hier is.
 
 const TONE = {
   base: 'bg-base',
