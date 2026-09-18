@@ -12,7 +12,7 @@ export default function Hero() {
           Zaterdag 14 november 2026 · Veenendaal
         </p>
 
-        <h1 className="u-wide mt-6 text-[clamp(48px,11vw,168px)] font-extrabold leading-[0.86] tracking-[-0.02em] text-ink">
+        <h1 className="font-wordmark mt-6 text-[clamp(48px,11vw,168px)] leading-[0.86] tracking-[-0.03em] text-ink">
           The Mall
           <br />
           Run 2026
