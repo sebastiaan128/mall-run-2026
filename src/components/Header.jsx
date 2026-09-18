@@ -7,7 +7,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-base/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-6 py-4 md:px-10">
         <div className="flex items-center gap-4">
-          <a href="#top" className="u-wide text-[19px] font-extrabold text-ink">
+          <a href="#top" className="font-wordmark text-[19px] tracking-[-0.01em] text-ink">
             The Mall Run
           </a>
           <span className="hidden h-6 w-px bg-line sm:block" />

@@ -8,6 +8,7 @@ export default {
       colors,
       fontFamily: {
         sans: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        wordmark: ['"Archivo Black"', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
         prose: '58ch',

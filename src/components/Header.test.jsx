@@ -20,4 +20,11 @@ describe('Header', () => {
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noreferrer');
   });
+
+  it('zet het woordmerk in de eigen letter, niet in de sitebrede letter', () => {
+    render(<Header />);
+    const wordmark = screen.getByRole('link', { name: 'The Mall Run' });
+    expect(wordmark).toHaveClass('font-wordmark');
+    expect(wordmark).not.toHaveClass('u-wide');
+  });
 });
