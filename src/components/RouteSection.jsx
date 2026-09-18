@@ -35,7 +35,7 @@ export default function RouteSection() {
         </svg>
       </div>
       <p className="u-narrow mt-3 text-[14px] text-muted">
-        Indicatie van de vorm — bekijk de route op{' '}
+        Indicatie van de vorm. Bekijk de route op{' '}
         <a
           href="https://maps.app.goo.gl/YNn6QNxjEfno6tfGA"
           target="_blank"

@@ -1,7 +1,7 @@
 import { useRegistrationsList } from '../../hooks/useRegistrations.js';
 
 function formatDate(ts) {
-  if (!ts?.toDate) return '—';
+  if (!ts?.toDate) return '-';
   return ts.toDate().toLocaleString('nl-NL');
 }
 
@@ -83,8 +83,8 @@ export default function RegistrationsTab() {
                     )}
                   </td>
                   <td className="py-3 pr-4">{r.distance}</td>
-                  <td className="py-3 pr-4">{r.team || '—'}</td>
-                  <td className="py-3 pr-4">{r.donationAmount ? `€${r.donationAmount}` : '—'}</td>
+                  <td className="py-3 pr-4">{r.team || '-'}</td>
+                  <td className="py-3 pr-4">{r.donationAmount ? `€${r.donationAmount}` : '-'}</td>
                   <td className="py-3 pr-4 text-white/60 text-xs whitespace-nowrap">
                     {formatDate(r.createdAt)}
                   </td>

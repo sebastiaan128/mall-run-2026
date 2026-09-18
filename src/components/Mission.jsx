@@ -14,7 +14,7 @@ export default function Mission() {
           gemeente en draaien op donateurs en mensen die geloven in wat we doen.
         </p>
         <p>
-          Onze droom is dat The Mall een plek blijft — en steeds meer wordt — waar jongeren in
+          Onze droom is dat The Mall een plek blijft, en steeds meer wordt, waar jongeren in
           Veenendaal zich gezien, gehoord en geliefd weten.
         </p>
         <p>
