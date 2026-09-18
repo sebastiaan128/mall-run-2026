@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import RouteLine from '../components/route/RouteLine.jsx';
 import Header from '../components/Header.jsx';
 import Hero from '../components/Hero.jsx';
-import Section from '../components/Section.jsx';
+import RouteSectionShell from '../components/route/RouteSectionShell.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import Distances from '../components/Distances.jsx';
 import Mission from '../components/Mission.jsx';
@@ -25,22 +25,22 @@ export default function Home() {
       <Header />
       <Hero />
 
-      <Section id="voortgang" label="De stand">
-        <h2 className="col-span-12 wide text-[28px] font-black leading-[0.95] md:col-span-5 md:text-[40px]">
+      <RouteSectionShell id="voortgang" label="De stand" side="right">
+        <h2 className="u-wide text-[clamp(26px,4vw,40px)] font-extrabold leading-[0.95] text-ink">
           Wat we tot nu toe ophaalden
         </h2>
-        <p className="col-span-12 mt-4 self-end text-[17px] leading-[1.6] md:col-span-4 md:col-start-9 md:mt-0">
+        <p className="mt-5 max-w-prose text-[17px] leading-[1.6]">
           Alles wat binnenkomt gaat naar het jongerenwerk van The Mall. De teller loopt mee zolang
           de inschrijving open is.
         </p>
-        <div className="col-span-12 mt-12 md:col-span-9">
+        <div className="mt-10">
           <ProgressBar
             raised={settings.raisedAmount}
             goal={settings.goalAmount}
             stretch={settings.stretchGoal}
           />
         </div>
-      </Section>
+      </RouteSectionShell>
 
       <Distances onChoose={setDistance} />
       <Mission />
@@ -49,19 +49,18 @@ export default function Home() {
       <RouteSection />
       <InstagramCTA />
 
-      <Section id="inschrijven" label="Inschrijven" tone="dark">
-        <h2 className="col-span-12 wide text-[34px] font-black leading-[0.9] text-white md:col-span-7 md:text-[56px]">
+      <RouteSectionShell id="inschrijven" label="Inschrijven" tone="finish">
+        <h2 className="u-wide text-[clamp(30px,5vw,52px)] font-extrabold leading-[0.92] text-white">
           Kom naar de start op 14 november
         </h2>
-        <p className="col-span-12 mt-5 self-end text-[17px] leading-[1.6] text-white/70 md:col-span-4 md:col-start-9 md:mt-0">
+        <p className="mt-5 max-w-prose text-[17px] leading-[1.6] text-white/70">
           Vul je gegevens in, dan nemen we contact met je op over de voorbereiding en je eigen
           deelnemerspagina.
         </p>
-        <div className="tick-rule tick-rule-light col-span-12 mt-10" aria-hidden="true" />
-        <div className="col-span-12 mt-10 md:col-span-7">
+        <div className="mt-10">
           <RegistrationForm distance={distance} onDistanceChange={setDistance} />
         </div>
-      </Section>
+      </RouteSectionShell>
 
       <Footer />
     </div>

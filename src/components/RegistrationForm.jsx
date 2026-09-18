@@ -35,7 +35,7 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
 
   if (status === 'done') {
     return (
-      <div className="border border-white/40 p-8">
+      <div className="rounded-[28px] bg-white/10 p-8">
         <p className="wide font-display text-[24px] font-black leading-tight text-white">
           Je staat aan de start.
         </p>
@@ -48,7 +48,7 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
   }
 
   const inputClass =
-    'w-full border border-white/35 bg-white/5 px-4 py-3 font-sans text-[16px] text-white placeholder:text-white/35 hover:border-white/60';
+    'w-full rounded-2xl border border-white/25 bg-white/5 px-4 py-3.5 text-[16px] text-white placeholder:text-white/35 hover:border-white/50';
   const labelClass = 'mb-2 block font-sans semiwide text-[14px] font-semibold text-white/75';
 
   return (
@@ -119,9 +119,10 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
                 value={d}
                 checked={distance === d}
                 onChange={() => onDistanceChange(d)}
+                aria-label={d}
                 className="pill-input peer"
               />
-              <span className="inline-flex items-center border border-white/35 px-5 py-3 font-sans semiwide text-[15px] font-semibold text-white/75 peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-white">
+              <span className="u-narrow inline-flex items-center rounded-full border border-white/25 px-5 py-3 text-[15px] font-semibold text-white/75 peer-checked:border-brand peer-checked:bg-brand peer-checked:text-ink peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-white">
                 {d}
               </span>
             </label>
@@ -176,7 +177,7 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full bg-accent py-4 font-sans semiwide text-[16px] font-bold text-white hover:bg-accentDeep disabled:opacity-60"
+        className="u-narrow w-full rounded-full bg-brand py-4 text-[16px] font-bold text-ink hover:bg-brandInk hover:text-paper disabled:opacity-60"
       >
         {status === 'submitting' ? 'Bezig met versturen' : 'Schrijf me in'}
       </button>
