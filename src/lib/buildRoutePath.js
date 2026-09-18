@@ -2,9 +2,10 @@
 // deelnemers bijkomen. Elke sectie meldt zijn verticale positie en zijn kant, en
 // deze functie legt daar één vloeiend pad doorheen.
 //
-// x-waarden staan in het viewBox-stelsel (0..100 breed), y in paginapixels. De
-// SVG wordt niet-proportioneel opgerekt; de lijndikte blijft gelijk doordat de
-// component `vector-effect="non-scaling-stroke"` zet.
+// Zowel x als y staan in echte paginapixels: de viewBox is precies zo breed en
+// hoog als de SVG zelf, dus er is geen rek en geen non-scaling-stroke nodig.
+// LEFT_X/RIGHT_X blijven percentages van de breedte — het enige dat hier
+// omrekent naar pixels is deze functie.
 
 export const LEFT_X = 28;
 export const RIGHT_X = 72;
@@ -41,10 +42,11 @@ function curveThrough(points) {
 
 export function buildRoutePath(stops, size) {
   const height = size?.height ?? 0;
-  if (!stops.length || height <= 0) return '';
+  const width = size?.width ?? 0;
+  if (!stops.length || height <= 0 || width <= 0) return '';
 
   const middle = stops.map((stop) => ({
-    x: stop.side === 'right' ? RIGHT_X : LEFT_X,
+    x: ((stop.side === 'right' ? RIGHT_X : LEFT_X) / 100) * width,
     y: clamp(stop.y, 0, height),
   }));
 
@@ -52,7 +54,7 @@ export function buildRoutePath(stops, size) {
   const last = middle[middle.length - 1];
 
   if (middle.length === 1) {
-    return `M ${first.x} 0 L ${first.x} ${round(height)}`;
+    return `M ${round(first.x)} 0 L ${round(first.x)} ${round(height)}`;
   }
 
   // De lijn loopt door tot boven- en onderrand, zodat hij nergens los hangt.

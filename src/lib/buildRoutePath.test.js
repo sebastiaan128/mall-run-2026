@@ -1,19 +1,27 @@
 import { describe, expect, it } from 'vitest';
 import { buildRoutePath, LEFT_X, RIGHT_X } from './buildRoutePath.js';
 
+const WIDTH = 1000;
+const leftX = (LEFT_X / 100) * WIDTH;
+const rightX = (RIGHT_X / 100) * WIDTH;
+
 describe('buildRoutePath', () => {
   it('geeft een lege string zonder haltes', () => {
-    expect(buildRoutePath([], { height: 1000 })).toBe('');
+    expect(buildRoutePath([], { width: WIDTH, height: 1000 })).toBe('');
   });
 
   it('geeft een lege string bij een hoogte van nul', () => {
-    expect(buildRoutePath([{ y: 10, side: 'left' }], { height: 0 })).toBe('');
+    expect(buildRoutePath([{ y: 10, side: 'left' }], { width: WIDTH, height: 0 })).toBe('');
+  });
+
+  it('geeft een lege string bij een breedte van nul', () => {
+    expect(buildRoutePath([{ y: 10, side: 'left' }], { width: 0, height: 1000 })).toBe('');
   });
 
   it('trekt bij één halte een rechte lijn van boven naar beneden', () => {
-    expect(buildRoutePath([{ y: 500, side: 'left' }], { height: 1000 })).toBe(
-      `M ${LEFT_X} 0 L ${LEFT_X} 1000`
-    );
+    expect(
+      buildRoutePath([{ y: 500, side: 'left' }], { width: WIDTH, height: 1000 })
+    ).toBe(`M ${leftX} 0 L ${leftX} 1000`);
   });
 
   it('begint bovenaan bij de eerste halte en eindigt onderaan bij de laatste', () => {
@@ -22,10 +30,10 @@ describe('buildRoutePath', () => {
         { y: 200, side: 'left' },
         { y: 800, side: 'right' },
       ],
-      { height: 1000 }
+      { width: WIDTH, height: 1000 }
     );
-    expect(d.startsWith(`M ${LEFT_X} 0`)).toBe(true);
-    expect(d.trimEnd().endsWith(`${RIGHT_X} 1000`)).toBe(true);
+    expect(d.startsWith(`M ${leftX} 0`)).toBe(true);
+    expect(d.trimEnd().endsWith(`${rightX} 1000`)).toBe(true);
   });
 
   it('gebruikt bezierkrommen tussen haltes aan verschillende kanten', () => {
@@ -34,7 +42,7 @@ describe('buildRoutePath', () => {
         { y: 200, side: 'left' },
         { y: 800, side: 'right' },
       ],
-      { height: 1000 }
+      { width: WIDTH, height: 1000 }
     );
     expect(d).toContain('C');
   });
@@ -45,7 +53,7 @@ describe('buildRoutePath', () => {
         { y: -400, side: 'left' },
         { y: 4000, side: 'right' },
       ],
-      { height: 1000 }
+      { width: WIDTH, height: 1000 }
     );
     // De punten óp de kromme (het eindpunt van elk C-segment en het M-punt)
     // moeten binnen de pagina liggen; controlepunten mogen erbuiten vallen,
@@ -73,7 +81,7 @@ describe('buildRoutePath', () => {
         { y: 0, side: 'left' },
         { y: 900, side: 'right' },
       ],
-      { height: 1000 }
+      { width: WIDTH, height: 1000 }
     );
     const controlY = [...d.matchAll(/C ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+),/g)].flatMap(
       (m) => [Number(m[2]), Number(m[4])]
@@ -92,7 +100,7 @@ describe('buildRoutePath', () => {
         { y: 500, side: 'right' },
         { y: 1000, side: 'left' },
       ],
-      { height: 1000 }
+      { width: WIDTH, height: 1000 }
     );
     const segments = [...d.matchAll(/C ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+), ([\d.-]+) ([\d.-]+)/g)]
       .map((m) => ({

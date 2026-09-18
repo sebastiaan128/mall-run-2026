@@ -14,8 +14,10 @@ import { useRouteLine } from '../../hooks/useRouteLine.js';
 // blijven staan in de viewport (wat position: fixed zou doen).
 //
 // De lijn is decoratie: de betekenis zit in de tekstvolgorde, dus hij is
-// volledig verborgen voor schermlezers. preserveAspectRatio="none" rekt de
-// viewBox op; de lijndikte blijft gelijk dankzij vector-effect.
+// volledig verborgen voor schermlezers. De viewBox wordt door `useRouteLine`s
+// `measure()` op de werkelijke breedte en hoogte van de SVG gezet — dezelfde
+// eenheden als het element zelf, dus geen rek en geen `preserveAspectRatio`
+// nodig: `strokeWidth="3"` betekent overal gewoon drie pixels.
 export default function RouteLine({ containerRef }) {
   const pathRef = useRef(null);
   const markerRef = useRef(null);
@@ -27,19 +29,13 @@ export default function RouteLine({ containerRef }) {
       className="pointer-events-none absolute inset-0 z-30 overflow-hidden"
       aria-hidden="true"
     >
-      <svg
-        className="h-full w-full"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg className="h-full w-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path
           ref={pathRef}
           fill="none"
           className="stroke-brand"
           strokeWidth="3"
           strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
         />
       </svg>
       <div className="absolute inset-0 mx-auto max-w-[1200px] px-6 md:px-10">
@@ -53,4 +49,4 @@ export default function RouteLine({ containerRef }) {
 }
 
 // De viewBox hierboven is alleen de beginwaarde: `useRouteLine`s `measure()`
-// overschrijft hem meteen met de werkelijke paginahoogte.
+// overschrijft hem meteen met de werkelijke breedte en hoogte van de SVG.

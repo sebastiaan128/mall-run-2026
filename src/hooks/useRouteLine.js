@@ -21,6 +21,9 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
     function measure() {
       const stopElements = Array.from(container.querySelectorAll('[data-route-stop]'));
       const height = container.scrollHeight;
+      // De optional chaining is nodig omdat jsdom `ownerSVGElement` niet altijd
+      // kent, en jsdom sowieso geen layout doet (breedte blijft dan 0).
+      const width = path.ownerSVGElement?.getBoundingClientRect().width ?? 0;
 
       const stops = stopElements.map((element) => ({
         element,
@@ -28,11 +31,11 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
         side: element.dataset.routeSide === 'right' ? 'right' : 'left',
       }));
 
-      // De viewBox is 100 breed (relatief) en zo hoog als de pagina, zodat de
-      // padbouwer gewoon in paginapixels kan rekenen. De optional chaining is
-      // nodig omdat jsdom `ownerSVGElement` niet altijd kent.
-      path.ownerSVGElement?.setAttribute('viewBox', `0 0 100 ${height}`);
-      const d = buildRoutePath(stops, { height });
+      // De viewBox is precies zo breed en hoog als de SVG zelf: geen rek, dus
+      // ook geen non-scaling-stroke nodig om de lijndikte gelijk te houden.
+      // De padbouwer rekent daarom gewoon in echte paginapixels, op beide assen.
+      path.ownerSVGElement?.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      const d = buildRoutePath(stops, { width, height });
       path.setAttribute('d', d);
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
