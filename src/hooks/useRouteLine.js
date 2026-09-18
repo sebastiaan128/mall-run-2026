@@ -6,16 +6,15 @@ import { drawnFraction, isStopReached } from '../lib/routeProgress.js';
 // de DOM en nooit naar React-state: state zou de hele pagina elke frame opnieuw
 // laten renderen. In de animatielus wordt niets gemeten — alle maten staan in de
 // cache hieronder en worden alleen bij resize opnieuw gevuld.
-export function useRouteLine({ pathRef, dotRef, markerRef, containerRef }) {
+export function useRouteLine({ pathRef, markerRef, containerRef }) {
   useEffect(() => {
     const path = pathRef.current;
-    const dot = dotRef.current;
     const marker = markerRef?.current;
     const container = containerRef.current;
     if (!path || !container) return undefined;
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let cache = { length: 0, height: 0, width: 0, stops: [] };
+    let cache = { length: 0, height: 0, stops: [] };
     let frame = 0;
     let dirty = true;
 
@@ -38,14 +37,7 @@ export function useRouteLine({ pathRef, dotRef, markerRef, containerRef }) {
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
 
-      // point.x uit getPointAtLength komt in viewBox-eenheden (0-100), niet
-      // in pixels. De viewBox wordt met preserveAspectRatio="none" over de
-      // weergavebreedte uitgerekt, dus paint() moet die breedte kennen om
-      // terug te rekenen naar pixels. Meten gebeurt hier, niet in paint(),
-      // zodat de animatielus zelf niets hoeft te meten.
-      const width = path.ownerSVGElement?.clientWidth ?? 0;
-
-      cache = { length, height, width, stops };
+      cache = { length, height, stops };
     }
 
     function paint() {
@@ -58,13 +50,9 @@ export function useRouteLine({ pathRef, dotRef, markerRef, containerRef }) {
       const fraction = drawnFraction(window.scrollY, window.innerHeight, cache.height);
       path.style.strokeDashoffset = String(cache.length * (1 - fraction));
 
-      if (dot || marker) {
+      if (marker) {
         const point = path.getPointAtLength(cache.length * fraction);
-        if (dot) {
-          const x = (point.x / 100) * cache.width;
-          dot.style.transform = `translate(${x}px, ${point.y}px)`;
-        }
-        if (marker) marker.style.transform = `translateY(${point.y}px)`;
+        marker.style.transform = `translateY(${point.y}px)`;
       }
 
       for (const stop of cache.stops) {
@@ -75,9 +63,8 @@ export function useRouteLine({ pathRef, dotRef, markerRef, containerRef }) {
 
     function paintStatic() {
       path.style.strokeDashoffset = '0';
-      // Zonder pad heeft de stip geen geldig punt om naartoe te gaan: gewoon
-      // verbergen, niet aan getPointAtLength komen.
-      if (dot) dot.style.display = 'none';
+      // Zonder pad heeft het bolletje geen geldig punt om naartoe te gaan:
+      // gewoon verbergen, niet aan getPointAtLength komen.
       if (marker) marker.style.display = 'none';
       for (const stop of cache.stops) {
         stop.element.dataset.routeReached = 'true';
@@ -150,5 +137,5 @@ export function useRouteLine({ pathRef, dotRef, markerRef, containerRef }) {
       mutations.disconnect();
       motion.removeEventListener('change', restart);
     };
-  }, [pathRef, dotRef, markerRef, containerRef]);
+  }, [pathRef, markerRef, containerRef]);
 }

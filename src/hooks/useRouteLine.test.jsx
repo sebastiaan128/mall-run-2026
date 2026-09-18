@@ -5,16 +5,14 @@ import { useRouteLine } from './useRouteLine.js';
 
 function Harness() {
   const pathRef = useRef(null);
-  const dotRef = useRef(null);
   const markerRef = useRef(null);
   const containerRef = useRef(null);
-  useRouteLine({ pathRef, dotRef, markerRef, containerRef });
+  useRouteLine({ pathRef, markerRef, containerRef });
   return (
     <div ref={containerRef}>
       <svg>
         <path ref={pathRef} />
       </svg>
-      <span ref={dotRef} />
       <span ref={markerRef} />
       <section data-route-stop data-route-side="left">een</section>
     </div>
@@ -23,15 +21,13 @@ function Harness() {
 
 function HarnessZonderHaltes() {
   const pathRef = useRef(null);
-  const dotRef = useRef(null);
   const containerRef = useRef(null);
-  useRouteLine({ pathRef, dotRef, containerRef });
+  useRouteLine({ pathRef, containerRef });
   return (
     <div ref={containerRef}>
       <svg>
         <path ref={pathRef} />
       </svg>
-      <span ref={dotRef} />
     </div>
   );
 }
@@ -83,7 +79,7 @@ describe('useRouteLine', () => {
   it('verbergt het bolletje in de kantlijn bij reduce motion', () => {
     mockMatchMedia(true);
     const { container } = render(<Harness />);
-    const [, marker] = container.querySelectorAll('span');
+    const [marker] = container.querySelectorAll('span');
     expect(marker.style.display).toBe('none');
   });
 
