@@ -1,32 +1,32 @@
-import Section from './Section.jsx';
+import RouteSectionShell from './route/RouteSectionShell.jsx';
 
 export default function InstagramCTA() {
   return (
-    <Section id="instagram" label="Volgen">
-      <h2 className="col-span-12 wide text-[24px] font-black leading-[1] md:col-span-5 md:text-[32px]">
+    <RouteSectionShell id="instagram" label="Volgen" side="right">
+      <h2 className="u-wide text-[clamp(22px,3vw,32px)] font-extrabold leading-[1] text-ink">
         Updates komen op Instagram
       </h2>
-      <p className="col-span-12 mt-3 self-end text-[17px] leading-[1.6] md:col-span-3 md:col-start-6 md:mt-0">
+      <p className="mt-4 max-w-prose text-[17px] leading-[1.6]">
         Trainingen, deelnemers en het laatste nieuws over 14 november.
       </p>
-      <div className="col-span-12 mt-6 flex flex-wrap gap-3 md:col-span-4 md:col-start-9 md:mt-0 md:justify-end md:self-end">
+      <div className="mt-6 flex flex-wrap gap-3">
         <a
-          href="https://instagram.com/themallrun"
+          href="https://www.instagram.com/mallrun0318"
           target="_blank"
           rel="noreferrer"
-          className="bg-accent px-5 py-3 font-sans semiwide text-[15px] font-semibold text-paper hover:bg-accentDeep"
+          className="u-narrow rounded-full bg-brand px-6 py-3 text-[15px] font-bold text-ink hover:bg-brandInk hover:text-paper"
         >
-          @themallrun
+          @mallrun0318
         </a>
         <a
           href="https://instagram.com/yfcveenendaal"
           target="_blank"
           rel="noreferrer"
-          className="border border-ink px-5 py-3 font-sans semiwide text-[15px] font-semibold text-ink hover:bg-paper"
+          className="u-narrow rounded-full bg-panel px-6 py-3 text-[15px] font-semibold text-ink hover:bg-line"
         >
           @yfcveenendaal
         </a>
       </div>
-    </Section>
+    </RouteSectionShell>
   );
 }

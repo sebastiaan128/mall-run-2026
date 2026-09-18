@@ -1,13 +1,13 @@
-import Section from './Section.jsx';
+import RouteSectionShell from './route/RouteSectionShell.jsx';
 
 export default function Mission() {
   return (
-    <Section id="waarom" label="Waarom">
-      <h2 className="col-span-12 wide text-[34px] font-black leading-[0.92] md:col-span-8 md:text-[56px]">
+    <RouteSectionShell id="waarom" label="Waarom" tone="panel">
+      <h2 className="u-wide text-[clamp(30px,5vw,52px)] font-extrabold leading-[0.95] text-ink">
         The Mall is er voor jongeren in Veenendaal
       </h2>
 
-      <div className="col-span-12 mt-10 space-y-6 text-[18px] leading-[1.7] md:col-span-5 md:mt-14">
+      <div className="mt-8 max-w-prose space-y-6 text-[18px] leading-[1.7]">
         <p>
           Een plek waar jongeren gezien worden, zichzelf kunnen zijn, anderen ontmoeten en kunnen
           groeien. Maar jongerenwerk is niet vanzelfsprekend: we ontvangen geen subsidie van de
@@ -17,17 +17,25 @@ export default function Mission() {
           Onze droom is dat The Mall een plek blijft — en steeds meer wordt — waar jongeren in
           Veenendaal zich gezien, gehoord en geliefd weten.
         </p>
+        <p>
+          The Mall Run wordt georganiseerd door{' '}
+          <a
+            href="https://veenendaal.yfc.nl/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-brandInk underline decoration-2 underline-offset-[5px]"
+          >
+            Youth for Christ Veenendaal
+          </a>
+          , de organisatie achter het jongerencentrum.
+        </p>
       </div>
 
-      <div className="col-span-12 mt-8 bg-ink p-8 text-paper md:col-span-6 md:col-start-7 md:mt-14 md:p-11">
-        <p className="wide font-display text-[21px] font-bold leading-[1.22] md:text-[27px]">
-          Op 14 november komen we in beweging. Niet alleen voor de sport, maar om geld op te halen
-          én The Mall zichtbaar te maken in Veenendaal.
-        </p>
-        <p className="mt-6 font-sans semiwide text-[14px] text-white/55">
-          Het team van The Mall Run
-        </p>
-      </div>
-    </Section>
+      <p className="u-wide mt-12 max-w-prose text-[21px] font-bold leading-[1.25] text-ink md:text-[27px]">
+        Op 14 november komen we in beweging. Niet alleen voor de sport, maar om geld op te halen
+        én The Mall zichtbaar te maken in Veenendaal.
+      </p>
+      <p className="u-narrow mt-4 text-[14px] text-muted">Het team van The Mall Run</p>
+    </RouteSectionShell>
   );
 }
