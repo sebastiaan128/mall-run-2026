@@ -6,6 +6,18 @@ body {
   @apply bg-base text-body font-sans antialiased;
 }
 
+/* Ankerlinks scrollen zacht, zodat de routelijn onderweg zichtbaar wordt
+   doorgetekend in plaats van in één sprong bij te springen. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* De sticky kop is ongeveer 60px hoog; zonder deze marge verdwijnt de kop van
+   een sectie erachter zodra je er met een anker naartoe springt. */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 h1, h2, h3, h4 {
   @apply text-ink;
 }
@@ -38,6 +50,10 @@ h1, h2, h3, h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   * {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
