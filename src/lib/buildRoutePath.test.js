@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { buildRoutePath, LEFT_X, RIGHT_X } from './buildRoutePath.js';
+import { buildRoutePath, routeColumns } from './buildRoutePath.js';
 
 const WIDTH = 1000;
-const leftX = (LEFT_X / 100) * WIDTH;
-const rightX = (RIGHT_X / 100) * WIDTH;
+const { left: leftX, right: rightX } = routeColumns(WIDTH);
 
 describe('buildRoutePath', () => {
   it('geeft een lege string zonder haltes', () => {
@@ -118,5 +117,23 @@ describe('buildRoutePath', () => {
       expect(Math.abs(incoming.x - outgoing.x)).toBeLessThan(0.05);
       expect(Math.abs(incoming.y - outgoing.y)).toBeLessThan(0.05);
     }
+  });
+});
+
+describe('routeColumns', () => {
+  it('houdt de lijn op een breed venster buiten de inhoudskolom', () => {
+    const width = 1800;
+    const content = Math.min(1200, width);
+    const contentLeft = (width - content) / 2;
+    const columns = routeColumns(width);
+    expect(columns.left).toBeLessThan(contentLeft);
+    expect(columns.right).toBeGreaterThan(contentLeft + content);
+  });
+
+  it('houdt de lijn op een smal venster binnen het venster', () => {
+    const width = 320;
+    const columns = routeColumns(width);
+    expect(columns.left).toBeGreaterThanOrEqual(0);
+    expect(columns.right).toBeLessThanOrEqual(width);
   });
 });

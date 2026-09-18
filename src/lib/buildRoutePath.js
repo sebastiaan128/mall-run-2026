@@ -4,11 +4,23 @@
 //
 // Zowel x als y staan in echte paginapixels: de viewBox is precies zo breed en
 // hoog als de SVG zelf, dus er is geen rek en geen non-scaling-stroke nodig.
-// LEFT_X/RIGHT_X blijven percentages van de breedte — het enige dat hier
-// omrekent naar pixels is deze functie.
+//
+// De inhoud van de pagina staat in een kolom van maximaal 1200px met 24px
+// (of 40px vanaf md) lucht opzij. De lijn hoort naast die kolom te lopen, niet
+// erdoorheen: hij hangt dus aan de rand van de kolom, niet aan een percentage
+// van het venster.
+export const CONTENT_MAX = 1200;
+export const CONTENT_GUTTER = 28;
+export const EDGE_MARGIN = 20;
 
-export const LEFT_X = 28;
-export const RIGHT_X = 72;
+export function routeColumns(width) {
+  const content = Math.min(CONTENT_MAX, width);
+  const contentLeft = (width - content) / 2;
+  return {
+    left: Math.max(EDGE_MARGIN, contentLeft - CONTENT_GUTTER),
+    right: Math.min(width - EDGE_MARGIN, contentLeft + content + CONTENT_GUTTER),
+  };
+}
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -45,8 +57,9 @@ export function buildRoutePath(stops, size) {
   const width = size?.width ?? 0;
   if (!stops.length || height <= 0 || width <= 0) return '';
 
+  const columns = routeColumns(width);
   const middle = stops.map((stop) => ({
-    x: ((stop.side === 'right' ? RIGHT_X : LEFT_X) / 100) * width,
+    x: stop.side === 'right' ? columns.right : columns.left,
     y: clamp(stop.y, 0, height),
   }));
 

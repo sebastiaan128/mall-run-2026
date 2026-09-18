@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { buildRoutePath } from '../lib/buildRoutePath.js';
+import { buildRoutePath, routeColumns } from '../lib/buildRoutePath.js';
 import { drawnFraction, isStopReached } from '../lib/routeProgress.js';
 
 // De lijn wordt per frame bijgewerkt. Daarom schrijft deze hook rechtstreeks naar
@@ -14,7 +14,7 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
     if (!path || !container) return undefined;
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let cache = { length: 0, height: 0, stops: [] };
+    let cache = { length: 0, height: 0, stops: [], columns: { left: 0, right: 0 } };
     let frame = 0;
     let dirty = true;
 
@@ -40,7 +40,7 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
 
-      cache = { length, height, stops };
+      cache = { length, height, stops, columns: routeColumns(width) };
     }
 
     function paint() {
@@ -55,7 +55,7 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
 
       if (marker) {
         const point = path.getPointAtLength(cache.length * fraction);
-        marker.style.transform = `translateY(${point.y}px)`;
+        marker.style.transform = `translate(${cache.columns.left}px, ${point.y}px)`;
       }
 
       for (const stop of cache.stops) {
