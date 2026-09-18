@@ -29,7 +29,7 @@ export default function RouteSectionShell({
       <span
         aria-hidden="true"
         style={{ left: `${right ? RIGHT_X : LEFT_X}%` }}
-        className={`absolute top-0 block h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-line transition-colors duration-500 group-data-[route-reached=true]:border-brand group-data-[route-reached=true]:bg-brand ${
+        className={`absolute top-0 block h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand/30 transition-colors duration-500 group-data-[route-reached=true]:border-brand group-data-[route-reached=true]:bg-brand ${
           tone === 'finish' ? 'bg-ink' : 'bg-base'
         }`}
       />

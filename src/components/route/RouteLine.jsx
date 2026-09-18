@@ -1,6 +1,11 @@
 import { useRef } from 'react';
 import { useRouteLine } from '../../hooks/useRouteLine.js';
 
+// De twee paden liggen over elkaar: dezelfde route, waarvan het bovenste
+// progressief wordt onthuld als je scrollt. Het onderste pad (track) ligt als
+// een zwakke oranje baan; het bovenste pad is de volle oranje lijn die oplicht
+// waar je bent. Het effect is één doorlopende lijn over de hele pagina.
+//
 // De lijn ligt BOVEN de sectie-achtergronden (z-30): elke sectie krijgt straks
 // een eigen achtergrondkleur (bg-base, bg-panel, bg-ink) die de lijn anders
 // volledig zou afdekken — terwijl de lijn juist het dragende idee van de
@@ -34,8 +39,8 @@ export default function RouteLine({ containerRef }) {
         <path
           ref={trackRef}
           fill="none"
-          className="stroke-line"
-          strokeWidth="1.5"
+          className="stroke-brand opacity-20"
+          strokeWidth="3"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
         />
