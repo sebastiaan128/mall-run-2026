@@ -44,8 +44,23 @@ export default function RouteLine({ containerRef }) {
       </svg>
       <span
         ref={dotRef}
-        className="absolute left-0 top-0 -ml-[7px] -mt-[7px] block h-3.5 w-3.5 rounded-full bg-brand"
-      />
+        className="absolute left-0 top-0 -ml-[13px] -mt-[22px] block h-[26px] w-[26px]"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          className="h-full w-full stroke-brand"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="14.2" cy="4.3" r="2.1" className="fill-brand" stroke="none" />
+          <path d="M15.6 8.1 L11.2 10.6 L13.3 13.4 L11.6 18.6" />
+          <path d="M13.3 13.4 L17.4 14.6 L18.6 18.2" />
+          <path d="M11.2 10.6 L7.4 9.2" />
+          <path d="M15.6 8.1 L19 9.9" />
+        </svg>
+      </span>
     </div>
   );
 }

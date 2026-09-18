@@ -14,7 +14,7 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
     if (!path || !container) return undefined;
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let cache = { length: 0, height: 0, stops: [] };
+    let cache = { length: 0, height: 0, width: 0, stops: [] };
     let frame = 0;
     let dirty = true;
 
@@ -37,7 +37,14 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
 
-      cache = { length, height, stops };
+      // point.x uit getPointAtLength komt in viewBox-eenheden (0-100), niet
+      // in pixels. De viewBox wordt met preserveAspectRatio="none" over de
+      // weergavebreedte uitgerekt, dus paint() moet die breedte kennen om
+      // terug te rekenen naar pixels. Meten gebeurt hier, niet in paint(),
+      // zodat de animatielus zelf niets hoeft te meten.
+      const width = path.ownerSVGElement?.clientWidth ?? 0;
+
+      cache = { length, height, width, stops };
     }
 
     function paint() {
@@ -52,7 +59,8 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
 
       if (dot) {
         const point = path.getPointAtLength(cache.length * fraction);
-        dot.style.transform = `translate(${point.x}px, ${point.y}px)`;
+        const x = (point.x / 100) * cache.width;
+        dot.style.transform = `translate(${x}px, ${point.y}px)`;
       }
 
       for (const stop of cache.stops) {
