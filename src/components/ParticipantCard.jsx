@@ -4,8 +4,8 @@ function euro(n) {
   return '€' + Number(n || 0).toLocaleString('nl-NL');
 }
 
-// De kaart is vormgegeven als een startnummer: kop met de afstand, naam groot,
-// en onder de perforatielijn de stand van de inzameling.
+// Geen omkaderde kaart meer: een rij aan de route, met de afstand als aanloop en
+// een kort streepje voortgang eronder.
 export default function ParticipantCard({ participant }) {
   const pct =
     participant.goalAmount > 0
@@ -16,35 +16,29 @@ export default function ParticipantCard({ participant }) {
   return (
     <Link
       to={`/deelnemer/${participant.id}`}
-      className="group flex flex-col border border-ink bg-paper hover:bg-surface"
+      className="group block rounded-[24px] px-5 py-6 hover:bg-panel"
     >
-      <div className="flex items-baseline justify-between border-b border-rule px-6 pb-3 pt-5">
-        <span className="wide font-display text-[30px] font-black leading-none text-ink">
-          {km}
-          <span className="ml-1 font-sans text-[13px] font-medium text-muted">km</span>
-        </span>
+      <div className="flex items-baseline gap-4">
+        <span className="u-wide text-[34px] font-extrabold leading-none text-brand">{km}</span>
+        <span className="u-narrow text-[13px] text-muted">km</span>
         {participant.team && (
-          <span className="font-sans semiwide text-[13px] text-muted">{participant.team}</span>
+          <span className="u-narrow ml-auto text-[13px] text-muted">{participant.team}</span>
         )}
       </div>
 
-      <div className="grow px-6 py-6">
-        <h3 className="semiwide text-[21px] font-bold leading-tight">{participant.name}</h3>
-        {participant.quote && (
-          <p className="mt-3 max-w-[34ch] text-[16px] italic leading-[1.6] text-body">
-            {participant.quote}
-          </p>
-        )}
-      </div>
+      <h3 className="u-narrow mt-3 text-[21px] font-bold leading-tight text-ink">
+        {participant.name}
+      </h3>
+      {participant.quote && (
+        <p className="mt-2 max-w-[42ch] text-[16px] leading-[1.6] text-body">{participant.quote}</p>
+      )}
 
-      <div className="border-t border-dashed border-ink px-6 pb-5 pt-4">
-        <div className="h-1.5 bg-rule">
-          <div className="h-full bg-accent" style={{ width: `${pct}%` }} />
-        </div>
-        <p className="mt-2.5 font-sans semiwide text-[13px] text-muted">
-          {euro(participant.raisedAmount)} van {euro(participant.goalAmount)}
-        </p>
+      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-line">
+        <div className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
       </div>
+      <p className="u-narrow mt-2 text-[13px] text-muted">
+        {euro(participant.raisedAmount)} van {euro(participant.goalAmount)}
+      </p>
     </Link>
   );
 }
