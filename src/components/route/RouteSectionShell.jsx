@@ -26,12 +26,21 @@ export default function RouteSectionShell({
   id,
   label,
   side = 'left',
+  align = 'side',
   tone = 'base',
   children,
 }) {
   const right = side === 'right';
+  const centered = align === 'center';
   const toneClass = TONE[tone] ?? TONE.base;
   const reachedClass = REACHED_CLASS[tone] ?? REACHED_CLASS.base;
+
+  const labelAlignClass = centered ? 'text-center' : right ? 'md:text-right' : '';
+  const contentClass = centered
+    ? 'mx-auto w-full max-w-[720px]'
+    : right
+      ? 'md:ml-auto md:max-w-[62%]'
+      : 'md:max-w-[62%]';
 
   return (
     <section
@@ -44,11 +53,11 @@ export default function RouteSectionShell({
         <p
           className={`u-narrow mb-8 text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors duration-500 ${
             tone === 'finish' ? 'text-white/50' : 'text-muted'
-          } ${reachedClass} ${right ? 'md:text-right' : ''}`}
+          } ${reachedClass} ${labelAlignClass}`}
         >
           {label}
         </p>
-        <div className={right ? 'md:ml-auto md:max-w-[62%]' : 'md:max-w-[62%]'}>{children}</div>
+        <div className={contentClass}>{children}</div>
       </div>
     </section>
   );

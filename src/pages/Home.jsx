@@ -49,11 +49,11 @@ export default function Home() {
       <RouteSection />
       <InstagramCTA />
 
-      <RouteSectionShell id="inschrijven" label="Inschrijven" tone="finish">
-        <h2 className="u-wide text-[clamp(30px,5vw,52px)] font-extrabold leading-[0.92] text-white">
+      <RouteSectionShell id="inschrijven" label="Inschrijven" tone="finish" align="center">
+        <h2 className="u-wide text-center text-[clamp(30px,5vw,52px)] font-extrabold leading-[0.92] text-white">
           Kom naar de start op 14 november
         </h2>
-        <p className="mt-5 max-w-prose text-[17px] leading-[1.6] text-white/70">
+        <p className="mx-auto mt-5 max-w-prose text-center text-[17px] leading-[1.6] text-white/70">
           Vul je gegevens in, dan nemen we contact met je op over de voorbereiding en je eigen
           deelnemerspagina.
         </p>
