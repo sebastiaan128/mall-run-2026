@@ -42,7 +42,7 @@ export default function Distances({ onChoose }) {
             <a
               href="#inschrijven"
               onClick={() => onChoose(`${d.km} km`)}
-              className="u-narrow mt-4 inline-block rounded-full bg-panel px-5 py-2.5 text-[14px] font-semibold text-ink hover:bg-brand"
+              className="u-narrow mt-4 inline-flex items-center rounded-full bg-panel px-5 py-3 text-[14px] font-semibold text-ink hover:bg-brand"
             >
               Kies {d.km} km
             </a>

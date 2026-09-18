@@ -1,12 +1,12 @@
 import YfcLogo from './YfcLogo.jsx';
 
 export default function Footer() {
-  const link = 'block text-[15px] text-white/70 hover:text-white';
+  const link = 'block py-3 text-[15px] text-white/70 hover:text-white';
 
   return (
     <footer className="bg-ink text-white/70 on-dark">
       <div className="mx-auto w-full max-w-[1200px] px-6 py-16 md:px-10">
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="font-wordmark text-[20px] text-white">The Mall Run</p>
             <p className="mt-3 text-[15px] leading-[1.6]">
