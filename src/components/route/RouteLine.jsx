@@ -1,9 +1,7 @@
 import { useRef } from 'react';
 import { useRouteLine } from '../../hooks/useRouteLine.js';
 
-// De twee paden liggen over elkaar: dezelfde route, waarvan het bovenste
-// progressief wordt onthuld als je scrollt. Het onderste pad (track) ligt als
-// een zwakke oranje baan; het bovenste pad is de volle oranje lijn die oplicht
+// De lijn wordt progressief onthuld als je scrollt: de oranje lijn die oplicht
 // waar je bent. Het effect is één doorlopende lijn over de hele pagina.
 //
 // De lijn ligt BOVEN de sectie-achtergronden (z-30): elke sectie krijgt straks
@@ -20,10 +18,9 @@ import { useRouteLine } from '../../hooks/useRouteLine.js';
 // viewBox op; de lijndikte blijft gelijk dankzij vector-effect.
 export default function RouteLine({ containerRef }) {
   const pathRef = useRef(null);
-  const trackRef = useRef(null);
   const dotRef = useRef(null);
 
-  useRouteLine({ pathRef, trackRef, dotRef, containerRef });
+  useRouteLine({ pathRef, dotRef, containerRef });
 
   return (
     <div
@@ -36,14 +33,6 @@ export default function RouteLine({ containerRef }) {
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          ref={trackRef}
-          fill="none"
-          className="stroke-brand opacity-20"
-          strokeWidth="3"
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-        />
         <path
           ref={pathRef}
           fill="none"
