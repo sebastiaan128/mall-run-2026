@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { buildRoutePath, routeColumns } from '../lib/buildRoutePath.js';
+import { buildRoutePath, EDGE_MARGIN } from '../lib/buildRoutePath.js';
 import { drawnFraction, isStopReached } from '../lib/routeProgress.js';
 
 // De lijn wordt per frame bijgewerkt. Daarom schrijft deze hook rechtstreeks naar
@@ -14,7 +14,7 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
     if (!path || !container) return undefined;
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let cache = { length: 0, height: 0, stops: [], columns: { left: 0, right: 0 } };
+    let cache = { length: 0, height: 0, stops: [] };
     let frame = 0;
     let dirty = true;
 
@@ -40,7 +40,7 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
 
-      cache = { length, height, stops, columns: routeColumns(width) };
+      cache = { length, height, stops };
     }
 
     function paint() {
@@ -54,8 +54,11 @@ export function useRouteLine({ pathRef, markerRef, containerRef }) {
       path.style.strokeDashoffset = String(cache.length * (1 - fraction));
 
       if (marker) {
+        // Het bolletje hangt aan de rand van de pagina, niet aan de linker
+        // kolom van de lijn: die kolom staat naast de tekst, maar op brede
+        // vensters nog los van de paginarand.
         const point = path.getPointAtLength(cache.length * fraction);
-        marker.style.transform = `translate(${cache.columns.left}px, ${point.y}px)`;
+        marker.style.transform = `translate(${EDGE_MARGIN}px, ${point.y}px)`;
       }
 
       for (const stop of cache.stops) {

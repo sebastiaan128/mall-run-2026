@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-ink text-white/70 on-dark">
-      <div className="mx-auto w-full max-w-[1200px] px-6 py-16 md:px-10">
+      <div className="w-full px-6 py-16 md:px-10">
         <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <p className="font-wordmark text-[20px] text-white">The Mall Run</p>

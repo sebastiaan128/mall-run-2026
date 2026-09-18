@@ -1,6 +1,6 @@
 // De routelijn wordt niet met de hand getekend: de pagina wordt langer zodra er
 // deelnemers bijkomen. Elke sectie meldt zijn verticale positie en zijn kant, en
-// deze functie legt daar één vloeiend pad doorheen.
+// deze functie legt daar één pad doorheen.
 //
 // Zowel x als y staan in echte paginapixels: de viewBox is precies zo breed en
 // hoog als de SVG zelf, dus er is geen rek en geen non-scaling-stroke nodig.
@@ -30,25 +30,44 @@ function round(n) {
   return Math.round(n * 100) / 100;
 }
 
-// Catmull-Rom door de punten, omgezet naar cubische beziers: dat geeft een
-// kromme die alle haltes exact raakt, zonder dat we controlepunten verzinnen.
-function curveThrough(points) {
-  let d = `M ${round(points[0].x)} ${round(points[0].y)}`;
-
-  for (let i = 0; i < points.length - 1; i += 1) {
-    const p0 = points[i - 1] ?? points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] ?? points[i + 1];
-
-    const c1x = p1.x + (p2.x - p0.x) / 6;
-    const c1y = p1.y + (p2.y - p0.y) / 6;
-    const c2x = p2.x - (p3.x - p1.x) / 6;
-    const c2y = p2.y - (p3.y - p1.y) / 6;
-
-    d += ` C ${round(c1x)} ${round(c1y)}, ${round(c2x)} ${round(c2y)}, ${round(p2.x)} ${round(p2.y)}`;
+// Verbindt twee opeenvolgende punten. Staan ze aan dezelfde kant, dan is dat
+// een rechte lijn omlaag: de lijn blijft dan gewoon in de marge, buiten de
+// tekstkolom. Staan ze aan verschillende kanten, dan loopt de lijn eerst recht
+// door tot een band van 2B boven de volgende halte — daar zit de sectiepadding
+// en staat geen tekst — en pas daarbinnen ligt de S-bocht die naar de halte
+// overwisselt. De bocht eindigt exact op de halte (`cur.x cur.y`) en heeft aan
+// beide kanten een verticale raaklijn (het tweede controlepunt deelt zijn x
+// met het eindpunt, het eerste met het startpunt), dus er zit geen knik in.
+function segmentTo(prev, cur) {
+  if (round(prev.x) === round(cur.x)) {
+    return ` L ${round(cur.x)} ${round(cur.y)}`;
   }
 
+  const B = Math.min(80, (cur.y - prev.y) / 2);
+  const bandY = cur.y - 2 * B;
+
+  return (
+    ` L ${round(prev.x)} ${round(bandY)}` +
+    ` C ${round(prev.x)} ${round(bandY + 2 * B * 0.55)},` +
+    ` ${round(cur.x)} ${round(cur.y - 2 * B * 0.55)},` +
+    ` ${round(cur.x)} ${round(cur.y)}`
+  );
+}
+
+// Rechtop in de marge, met korte overgangen vlak boven een halte. Begint
+// bovenaan de pagina op de x van de eerste halte en eindigt onderaan op de x
+// van de laatste.
+function verticalRoute(points, height) {
+  const first = points[0];
+  let d = `M ${round(first.x)} 0`;
+  let prev = { x: first.x, y: 0 };
+
+  for (const cur of points) {
+    d += segmentTo(prev, cur);
+    prev = cur;
+  }
+
+  d += ` L ${round(prev.x)} ${round(height)}`;
   return d;
 }
 
@@ -58,19 +77,15 @@ export function buildRoutePath(stops, size) {
   if (!stops.length || height <= 0 || width <= 0) return '';
 
   const columns = routeColumns(width);
-  const middle = stops.map((stop) => ({
+  const points = stops.map((stop) => ({
     x: stop.side === 'right' ? columns.right : columns.left,
     y: clamp(stop.y, 0, height),
   }));
 
-  const first = middle[0];
-  const last = middle[middle.length - 1];
-
-  if (middle.length === 1) {
-    return `M ${round(first.x)} 0 L ${round(first.x)} ${round(height)}`;
+  if (points.length === 1) {
+    const x = round(points[0].x);
+    return `M ${x} 0 L ${x} ${round(height)}`;
   }
 
-  // De lijn loopt door tot boven- en onderrand, zodat hij nergens los hangt.
-  const points = [{ x: first.x, y: 0 }, ...middle, { x: last.x, y: height }];
-  return curveThrough(points);
+  return verticalRoute(points, height);
 }
