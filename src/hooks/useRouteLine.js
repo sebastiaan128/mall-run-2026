@@ -6,9 +6,10 @@ import { drawnFraction, isStopReached } from '../lib/routeProgress.js';
 // de DOM en nooit naar React-state: state zou de hele pagina elke frame opnieuw
 // laten renderen. In de animatielus wordt niets gemeten — alle maten staan in de
 // cache hieronder en worden alleen bij resize opnieuw gevuld.
-export function useRouteLine({ pathRef, dotRef, containerRef }) {
+export function useRouteLine({ pathRef, trackRef, dotRef, containerRef }) {
   useEffect(() => {
     const path = pathRef.current;
+    const track = trackRef?.current;
     const dot = dotRef.current;
     const container = containerRef.current;
     if (!path || !container) return undefined;
@@ -32,7 +33,9 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
       // padbouwer gewoon in paginapixels kan rekenen. De optional chaining is
       // nodig omdat jsdom `ownerSVGElement` niet altijd kent.
       path.ownerSVGElement?.setAttribute('viewBox', `0 0 100 ${height}`);
-      path.setAttribute('d', buildRoutePath(stops, { height }));
+      const d = buildRoutePath(stops, { height });
+      path.setAttribute('d', d);
+      if (track) track.setAttribute('d', d);
       const length = path.getTotalLength();
       path.style.strokeDasharray = String(length);
 
@@ -136,5 +139,5 @@ export function useRouteLine({ pathRef, dotRef, containerRef }) {
       mutations.disconnect();
       motion.removeEventListener('change', restart);
     };
-  }, [pathRef, dotRef, containerRef]);
+  }, [pathRef, trackRef, dotRef, containerRef]);
 }

@@ -15,9 +15,10 @@ import { useRouteLine } from '../../hooks/useRouteLine.js';
 // viewBox op; de lijndikte blijft gelijk dankzij vector-effect.
 export default function RouteLine({ containerRef }) {
   const pathRef = useRef(null);
+  const trackRef = useRef(null);
   const dotRef = useRef(null);
 
-  useRouteLine({ pathRef, dotRef, containerRef });
+  useRouteLine({ pathRef, trackRef, dotRef, containerRef });
 
   return (
     <div
@@ -31,9 +32,17 @@ export default function RouteLine({ containerRef }) {
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
+          ref={trackRef}
+          fill="none"
+          className="stroke-line"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
           ref={pathRef}
           fill="none"
-          stroke="#E85812"
+          className="stroke-brand"
           strokeWidth="3"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"

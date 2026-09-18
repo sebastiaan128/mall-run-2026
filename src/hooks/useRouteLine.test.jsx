@@ -5,12 +5,14 @@ import { useRouteLine } from './useRouteLine.js';
 
 function Harness() {
   const pathRef = useRef(null);
+  const trackRef = useRef(null);
   const dotRef = useRef(null);
   const containerRef = useRef(null);
-  useRouteLine({ pathRef, dotRef, containerRef });
+  useRouteLine({ pathRef, trackRef, dotRef, containerRef });
   return (
     <div ref={containerRef}>
       <svg>
+        <path ref={trackRef} />
         <path ref={pathRef} />
       </svg>
       <span ref={dotRef} />
@@ -74,7 +76,8 @@ describe('useRouteLine', () => {
   it('tekent de lijn meteen volledig bij reduce motion', () => {
     mockMatchMedia(true);
     const { container } = render(<Harness />);
-    expect(container.querySelector('path').style.strokeDashoffset).toBe('0');
+    const [, line] = container.querySelectorAll('path');
+    expect(line.style.strokeDashoffset).toBe('0');
   });
 
   it('activeert alle haltes bij reduce motion', () => {
@@ -84,6 +87,15 @@ describe('useRouteLine', () => {
       'data-route-reached',
       'true'
     );
+  });
+
+  it('geeft de baan hetzelfde d-attribuut als de lijn zodra er haltes zijn', () => {
+    mockMatchMedia(false);
+    const { container } = render(<Harness />);
+    const paths = container.querySelectorAll('path');
+    const track = paths[0];
+    const line = paths[1];
+    expect(track.getAttribute('d')).toBe(line.getAttribute('d'));
   });
 
   it('luistert passief naar scroll als beweging is toegestaan', () => {
