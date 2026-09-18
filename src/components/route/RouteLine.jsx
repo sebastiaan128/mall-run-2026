@@ -42,7 +42,7 @@ export default function RouteLine({ containerRef }) {
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <div className="relative mx-auto h-full w-full max-w-[1200px] px-6 md:px-10">
+      <div className="absolute inset-0 mx-auto max-w-[1200px] px-6 md:px-10">
         <span
           ref={markerRef}
           className="absolute left-6 top-0 -mt-[5px] block h-2.5 w-2.5 rounded-full bg-brand md:left-10"
