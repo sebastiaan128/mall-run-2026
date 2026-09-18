@@ -33,7 +33,7 @@ export default function ParticipantCard({ participant }) {
         <p className="mt-2 max-w-[42ch] text-[16px] leading-[1.6] text-body">{participant.quote}</p>
       )}
 
-      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-line">
+      <div aria-hidden="true" className="mt-4 h-1.5 overflow-hidden rounded-full bg-line">
         <div className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
       </div>
       <p className="u-narrow mt-2 text-[13px] text-muted">

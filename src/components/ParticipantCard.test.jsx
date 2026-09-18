@@ -29,7 +29,9 @@ describe('ParticipantCard', () => {
 
   it('toont de afstand zonder dubbele eenheid', () => {
     renderRow(base);
-    expect(screen.getByText('14')).toBeInTheDocument();
+    const link = screen.getByRole('link', { name: /Sanne/ });
+    expect(link.textContent).toContain('14km');
+    expect(link.textContent).not.toMatch(/km\s*km/i);
   });
 
   it('overleeft een deelnemer zonder doelbedrag', () => {
