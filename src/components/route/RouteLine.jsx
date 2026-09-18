@@ -19,8 +19,9 @@ import { useRouteLine } from '../../hooks/useRouteLine.js';
 export default function RouteLine({ containerRef }) {
   const pathRef = useRef(null);
   const dotRef = useRef(null);
+  const markerRef = useRef(null);
 
-  useRouteLine({ pathRef, dotRef, containerRef });
+  useRouteLine({ pathRef, dotRef, markerRef, containerRef });
 
   return (
     <div
@@ -61,6 +62,12 @@ export default function RouteLine({ containerRef }) {
           <path d="M15.6 8.1 L19 9.9" />
         </svg>
       </span>
+      <div className="relative mx-auto h-full w-full max-w-[1200px] px-6 md:px-10">
+        <span
+          ref={markerRef}
+          className="absolute left-6 top-0 -mt-[5px] block h-2.5 w-2.5 rounded-full bg-brand md:left-10"
+        />
+      </div>
     </div>
   );
 }
