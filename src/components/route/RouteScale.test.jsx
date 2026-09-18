@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, waitFor } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRef } from 'react';
 import RouteScale from './RouteScale.jsx';
 
@@ -30,7 +30,43 @@ beforeEach(() => {
   });
 });
 
+// Een halte met een label erin, zodat te meten valt waar het streepje landt.
+function LabelHarness() {
+  const containerRef = useRef(null);
+  return (
+    <div ref={containerRef}>
+      <section id="halte-0" data-route-stop data-route-side="left">
+        <p data-route-label>De stand</p>
+      </section>
+      <RouteScale containerRef={containerRef} />
+    </div>
+  );
+}
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe('RouteScale', () => {
+  it('zet het streepje naast het labeltje van de halte, niet op de sectierand', async () => {
+    // jsdom rekent geen layout uit: alle rechthoeken zijn nul. Daarom geven we
+    // de sectie en het label hier zelf maten, ver uit elkaar, zodat zichtbaar
+    // is welke van de twee de hoogte van het streepje bepaalt.
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function rect() {
+      if (this.hasAttribute('data-route-label')) return { top: 1200, height: 20 };
+      return { top: 1000, height: 600 };
+    });
+
+    const { container } = render(<LabelHarness />);
+    const tick = await waitFor(() => {
+      const found = container.querySelector('[data-route-tick]');
+      expect(found.style.top).not.toBe('');
+      return found;
+    });
+    // Het midden van het label: 1200 + 20 / 2.
+    expect(tick.style.top).toBe('1210px');
+  });
+
   it('toont per halte een streepje met de bijbehorende kilometerstand', () => {
     const { container } = render(<Harness stopCount={3} />);
     const ticks = container.querySelectorAll('[data-route-tick]');

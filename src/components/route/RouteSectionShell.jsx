@@ -51,6 +51,7 @@ export default function RouteSectionShell({
     >
       <div className="mx-auto w-full max-w-[1200px] px-6 py-20 md:px-10 md:py-28 lg:py-32">
         <p
+          data-route-label
           className={`u-narrow mb-8 text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors duration-500 ${
             tone === 'finish' ? 'text-white/50' : 'text-muted'
           } ${reachedClass} ${labelAlignClass}`}

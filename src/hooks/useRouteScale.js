@@ -25,7 +25,13 @@ export function useRouteScale({ scaleRef, markerRef, containerRef }) {
       const height = container.scrollHeight;
 
       const stops = stopElements.map((element) => {
-        const y = element.getBoundingClientRect().top + window.scrollY;
+        // Een halte zit niet op de rand van zijn sectie maar bij zijn
+        // labeltje: dat is het punt in de tekst waar je aankomt. Meten we de
+        // sectierand, dan landt het streepje midden in de witruimte tussen
+        // twee secties en lijkt het bij de verkeerde tekst te horen.
+        const label = element.querySelector('[data-route-label]');
+        const rect = (label ?? element).getBoundingClientRect();
+        const y = rect.top + window.scrollY + (label ? rect.height / 2 : 0);
         const tick = scale.querySelector(`[data-route-tick="${element.id}"]`);
         if (tick) tick.style.top = `${y}px`;
         return { element, y };
