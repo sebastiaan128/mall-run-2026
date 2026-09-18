@@ -36,7 +36,7 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
   if (status === 'done') {
     return (
       <div className="rounded-[28px] bg-white/10 p-8">
-        <p className="wide font-display text-[24px] font-black leading-tight text-white">
+        <p className="u-wide text-[24px] font-black leading-tight text-white">
           Je staat aan de start.
         </p>
         <p className="mt-3 max-w-prose leading-[1.65] text-white/75">
@@ -49,7 +49,7 @@ export default function RegistrationForm({ distance, onDistanceChange }) {
 
   const inputClass =
     'w-full rounded-2xl border border-white/25 bg-white/5 px-4 py-3.5 text-[16px] text-white placeholder:text-white/35 hover:border-white/50';
-  const labelClass = 'mb-2 block font-sans semiwide text-[14px] font-semibold text-white/75';
+  const labelClass = 'mb-2 block font-sans u-narrow text-[14px] font-semibold text-white/75';
 
   return (
     <form onSubmit={handleSubmit}>

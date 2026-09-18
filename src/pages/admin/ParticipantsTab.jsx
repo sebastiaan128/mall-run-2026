@@ -72,16 +72,16 @@ export default function ParticipantsTab() {
 
   const fieldClass =
     'w-full px-3 py-2.5 rounded border border-white/20 bg-ink text-white text-sm focus:outline-2 focus:outline-white';
-  const labelClass = 'block font-sans semiwide font-bold text-xs text-white/60 mb-1.5';
+  const labelClass = 'block font-sans u-narrow font-bold text-xs text-white/60 mb-1.5';
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-white font-sans semiwide font-bold text-lg">Deelnemers</h2>
+        <h2 className="text-white font-sans u-narrow font-bold text-lg">Deelnemers</h2>
         {editingId === null && (
           <button
             onClick={startNew}
-            className="bg-paper text-ink px-4 py-2 rounded font-sans semiwide font-bold text-xs"
+            className="bg-paper text-ink px-4 py-2 rounded font-sans u-narrow font-bold text-xs"
           >
             + Nieuwe deelnemer
           </button>
@@ -93,7 +93,7 @@ export default function ParticipantsTab() {
           onSubmit={handleSubmit}
           className="bg-white/5 border border-white/20 rounded p-6 mb-8 max-w-lg"
         >
-          <h3 className="font-sans semiwide font-bold text-sm text-white mb-4">
+          <h3 className="font-sans u-narrow font-bold text-sm text-white mb-4">
             {editingId === 'new' ? 'Nieuwe deelnemer' : 'Deelnemer bewerken'}
           </h3>
 
@@ -167,14 +167,14 @@ export default function ParticipantsTab() {
             <button
               type="submit"
               disabled={busy}
-              className="bg-paper text-ink px-5 py-2.5 rounded font-sans semiwide font-bold text-xs disabled:opacity-60"
+              className="bg-paper text-ink px-5 py-2.5 rounded font-sans u-narrow font-bold text-xs disabled:opacity-60"
             >
               {busy ? 'Bezig…' : 'Opslaan'}
             </button>
             <button
               type="button"
               onClick={() => setEditingId(null)}
-              className="px-5 py-2.5 rounded border border-white/20 text-white/60 font-sans semiwide font-bold text-xs"
+              className="px-5 py-2.5 rounded border border-white/20 text-white/60 font-sans u-narrow font-bold text-xs"
             >
               Annuleren
             </button>
@@ -194,7 +194,7 @@ export default function ParticipantsTab() {
               className="bg-white/5 border border-white/20 rounded p-4 flex items-center justify-between gap-4 flex-wrap"
             >
               <div>
-                <div className="font-sans semiwide font-bold text-white">{p.name}</div>
+                <div className="font-sans u-narrow font-bold text-white">{p.name}</div>
                 <div className="text-xs text-white/60">
                   {p.distance} · {p.team} · €{p.raisedAmount || 0} van €{p.goalAmount || 0}
                 </div>
@@ -202,13 +202,13 @@ export default function ParticipantsTab() {
               <div className="flex gap-2">
                 <button
                   onClick={() => startEdit(p)}
-                  className="text-xs font-sans semiwide font-bold text-white"
+                  className="text-xs font-sans u-narrow font-bold text-white"
                 >
                   Bewerken
                 </button>
                 <button
                   onClick={() => handleDelete(p.id)}
-                  className="text-xs font-sans semiwide font-bold text-red-400"
+                  className="text-xs font-sans u-narrow font-bold text-red-400"
                 >
                   Verwijderen
                 </button>

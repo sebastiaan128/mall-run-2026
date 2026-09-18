@@ -32,11 +32,11 @@ export default function SettingsTab() {
 
   const fieldClass =
     'w-full px-4 py-3 rounded border border-white/20 bg-white/5 text-white text-sm focus:outline-2 focus:outline-white';
-  const labelClass = 'block font-sans semiwide font-bold text-xs text-white/60 mb-2';
+  const labelClass = 'block font-sans u-narrow font-bold text-xs text-white/60 mb-2';
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md">
-      <h2 className="text-white font-sans semiwide font-bold text-lg mb-6">Campagne-instellingen</h2>
+      <h2 className="text-white font-sans u-narrow font-bold text-lg mb-6">Campagne-instellingen</h2>
 
       <div className="mb-4">
         <label className={labelClass}>Opgehaald bedrag (€)</label>
@@ -72,7 +72,7 @@ export default function SettingsTab() {
       <button
         type="submit"
         disabled={status === 'saving'}
-        className="bg-paper text-ink px-6 py-3 rounded font-sans semiwide font-bold text-sm disabled:opacity-60"
+        className="bg-paper text-ink px-6 py-3 rounded font-sans u-narrow font-bold text-sm disabled:opacity-60"
       >
         {status === 'saving' ? 'Opslaan…' : 'Opslaan'}
       </button>

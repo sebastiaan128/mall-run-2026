@@ -34,8 +34,8 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center px-8">
       <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <div className="font-display wide text-xl text-white/60 mb-1 text-center">MALL RUN</div>
-        <h1 className="text-white font-sans semiwide font-bold text-lg text-center mb-8">
+        <div className="u-wide text-xl text-white/60 mb-1 text-center">MALL RUN</div>
+        <h1 className="text-white font-sans u-narrow font-bold text-lg text-center mb-8">
           Inloggen beheer
         </h1>
 
@@ -46,7 +46,7 @@ export default function AdminLogin() {
         )}
 
         <div className="mb-4">
-          <label className="block font-sans semiwide font-bold text-xs text-white/60 mb-2">
+          <label className="block font-sans u-narrow font-bold text-xs text-white/60 mb-2">
             E-mailadres
           </label>
           <input
@@ -58,7 +58,7 @@ export default function AdminLogin() {
           />
         </div>
         <div className="mb-6">
-          <label className="block font-sans semiwide font-bold text-xs text-white/60 mb-2">
+          <label className="block font-sans u-narrow font-bold text-xs text-white/60 mb-2">
             Wachtwoord
           </label>
           <input
@@ -72,7 +72,7 @@ export default function AdminLogin() {
         <button
           type="submit"
           disabled={busy}
-          className="w-full py-3.5 rounded bg-paper text-ink font-sans semiwide font-bold text-sm disabled:opacity-60"
+          className="w-full py-3.5 rounded bg-paper text-ink font-sans u-narrow font-bold text-sm disabled:opacity-60"
         >
           {busy ? 'Bezig…' : 'Inloggen'}
         </button>

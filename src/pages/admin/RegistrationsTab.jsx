@@ -41,13 +41,13 @@ export default function RegistrationsTab() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-white font-sans semiwide font-bold text-lg">
+        <h2 className="text-white font-sans u-narrow font-bold text-lg">
           Inschrijvingen {!loading && `(${registrations.length})`}
         </h2>
         {registrations.length > 0 && (
           <button
             onClick={() => downloadCsv(registrations)}
-            className="bg-paper text-ink px-4 py-2 rounded font-sans semiwide font-bold text-xs"
+            className="bg-paper text-ink px-4 py-2 rounded font-sans u-narrow font-bold text-xs"
           >
             Exporteer als CSV
           </button>
@@ -62,7 +62,7 @@ export default function RegistrationsTab() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/20 text-white/60 font-sans semiwide text-xs">
+              <tr className="border-b border-white/20 text-white/60 font-sans u-narrow text-xs">
                 <th className="py-2 pr-4">Naam</th>
                 <th className="py-2 pr-4">Contact</th>
                 <th className="py-2 pr-4">Afstand</th>

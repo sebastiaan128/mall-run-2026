@@ -11,14 +11,14 @@ export default function ParticipantPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b border-ink bg-surface">
+      <header className="border-b border-ink bg-base">
         <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between gap-6 px-6 py-3.5 md:px-12 lg:px-16">
-          <Link to="/" className="wide font-display text-[17px] font-black text-ink">
-            MALL RUN
+          <Link to="/" className="font-wordmark text-[17px] text-ink">
+            The Mall Run
           </Link>
           <Link
             to="/#deelnemers"
-            className="font-sans semiwide text-[15px] font-medium text-body hover:text-muted"
+            className="font-sans u-narrow text-[15px] font-medium text-body hover:text-muted"
           >
             Alle deelnemers
           </Link>
@@ -29,7 +29,7 @@ export default function ParticipantPage() {
         <p className="flex-1 px-6 py-24 text-center text-[16px] text-muted">Laden…</p>
       ) : !participant ? (
         <div className="mx-auto w-full max-w-3xl flex-1 px-6 py-24">
-          <h1 className="wide text-[32px] font-black leading-[1]">
+          <h1 className="u-wide text-[32px] font-black leading-[1]">
             Deze deelnemer bestaat niet meer
           </h1>
           <p className="mt-4 max-w-prose leading-[1.65]">
@@ -37,7 +37,7 @@ export default function ParticipantPage() {
           </p>
           <Link
             to="/#deelnemers"
-            className="mt-6 inline-block border border-ink px-5 py-3 font-sans semiwide text-[15px] font-semibold text-ink hover:bg-surface"
+            className="mt-6 inline-block rounded-full bg-panel px-5 py-3 font-sans u-narrow text-[15px] font-semibold text-ink hover:bg-line"
           >
             Terug naar alle deelnemers
           </Link>
@@ -45,18 +45,18 @@ export default function ParticipantPage() {
       ) : (
         <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16 md:py-24">
           {/* Startnummer: afstand groot, naam eronder, daarna de eigen stand. */}
-          <div className="border border-ink bg-paper">
-            <div className="flex items-baseline justify-between border-b border-rule px-7 pb-4 pt-6">
-              <span className="wide font-display text-[44px] font-black leading-none text-ink">
+          <div className="rounded-2xl border border-ink bg-paper">
+            <div className="flex items-baseline justify-between border-b border-line px-7 pb-4 pt-6">
+              <span className="u-wide text-[44px] font-black leading-none text-ink">
                 {km}
                 <span className="ml-1.5 font-sans text-[15px] font-medium text-muted">km</span>
               </span>
-              <span className="font-sans semiwide text-[15px] text-muted">
+              <span className="font-sans u-narrow text-[15px] text-muted">
                 {participant.team || 'Individueel'}
               </span>
             </div>
             <div className="px-7 py-8">
-              <h1 className="wide text-[34px] font-black leading-[0.95] md:text-[48px]">
+              <h1 className="u-wide text-[34px] font-black leading-[0.95] md:text-[48px]">
                 {participant.name}
               </h1>
               {participant.quote && (
@@ -68,7 +68,7 @@ export default function ParticipantPage() {
           </div>
 
           <div className="mt-12">
-            <h2 className="mb-6 font-sans semiwide text-[15px] font-semibold text-ink">
+            <h2 className="mb-6 font-sans u-narrow text-[15px] font-semibold text-ink">
               De stand van {participant.name.split(' ')[0]}
             </h2>
             <ProgressBar
@@ -78,7 +78,7 @@ export default function ParticipantPage() {
             />
             <button
               type="button"
-              className="mt-8 bg-accent px-7 py-3.5 font-sans semiwide text-[16px] font-bold text-paper hover:bg-accentDeep"
+              className="mt-8 rounded-full bg-brand px-7 py-3.5 font-sans u-narrow text-[16px] font-bold text-ink hover:bg-brandInk hover:text-paper"
             >
               Steun {participant.name.split(' ')[0]}
             </button>
