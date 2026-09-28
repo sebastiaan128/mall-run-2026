@@ -25,5 +25,12 @@ service cloud.firestore {
       allow create: if true;
       allow read, update, delete: if request.auth != null;
     }
+
+    // Uitgaande mail: alleen de Cloud Function (Admin SDK) schrijft hierin,
+    // de extensie Trigger Email verstuurt het. Vanuit de site mag niemand erbij,
+    // anders kan iedereen via ons SMTP-account mail naar elk adres sturen.
+    match /mail/{docId} {
+      allow read, write: if false;
+    }
   }
 }
