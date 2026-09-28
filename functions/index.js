@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { onDocumentCreated } from 'firebase-functions/v2/firestore';
 import { buildConfirmation } from './bevestiging.js';
+import { ORGANISATION, buildNotification } from './melding.js';
 
 initializeApp();
 
@@ -16,12 +17,18 @@ export const bevestigInschrijving = onDocumentCreated(
     const registration = event.data?.data();
     if (!registration?.email) return;
 
-    await getFirestore()
-      .collection('mail')
-      .doc(event.params.id)
-      .set({
+    const mail = getFirestore().collection('mail');
+    await Promise.all([
+      mail.doc(event.params.id).set({
         to: registration.email,
         message: buildConfirmation(registration),
-      });
+      }),
+      // Melding aan de organisatie; antwoorden gaat rechtstreeks naar de loper.
+      mail.doc(`${event.params.id}-melding`).set({
+        to: ORGANISATION,
+        replyTo: registration.email,
+        message: buildNotification(registration),
+      }),
+    ]);
   }
 );
