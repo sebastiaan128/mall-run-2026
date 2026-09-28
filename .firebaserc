@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "mall-run-b5ff6"
+  },
+  "targets": {},
+  "etags": {
+    "mall-run-b5ff6": {
+      "extensionInstances": {
+        "firestore-send-email": "0c760475b7fc36533a4094cb0865e710d340d9231ab4e9e462cab4db70dfa018"
+      }
+    }
   }
 }

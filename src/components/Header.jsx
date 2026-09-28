@@ -30,7 +30,7 @@ export default function Header() {
           <a href="#route" className={`hidden sm:inline ${link}`}>Route</a>
           <a
             href="#inschrijven"
-            className="u-narrow rounded-full bg-brand px-5 py-2.5 text-[14px] font-bold text-ink hover:bg-brandInk hover:text-paper"
+            className="u-narrow inline-flex items-center rounded-full bg-brand px-5 py-3 text-[14px] font-bold text-ink hover:bg-brandInk hover:text-paper"
           >
             Inschrijven
           </a>

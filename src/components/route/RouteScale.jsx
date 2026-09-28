@@ -45,7 +45,11 @@ export default function RouteScale({ containerRef }) {
       {stops.map((stop) => (
         <div key={stop.id} data-route-tick={stop.id} className="absolute left-0 -mt-px">
           <span className="block h-px w-2.5 bg-line" />
-          <span className="u-narrow absolute left-4 top-1/2 -translate-y-1/2 whitespace-nowrap text-[11px] text-muted">
+          {/* Onder xl staat de sectie-inhoud nog niet gecentreerd binnen zijn
+              max-breedte, dus het kilometercijfer zou de tekstkolom raken;
+              het streepje en de markering blijven wel gewoon zichtbaar
+              vanaf md. */}
+          <span className="u-narrow absolute left-4 top-1/2 hidden -translate-y-1/2 whitespace-nowrap text-[11px] text-muted xl:block">
             km {String(stop.km).replace('.', ',')}
           </span>
         </div>
